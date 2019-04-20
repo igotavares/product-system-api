@@ -1,0 +1,41 @@
+#%RAML 1.0 DataType
+
+type: object
+properties:
+  id?:
+    type: string
+    required: false
+  title:
+    type: string
+    required: true
+  description:
+    type: string
+    required: true
+  type:
+    type: string
+    required: true
+  provider:
+    type: string
+    required: true
+  price:
+    type: number
+    required: false
+  cost:
+    type: number
+    required: false
+  SKU:
+    type: string
+    required: false
+  barCode:
+    type: string
+    required: false
+  weight:
+    type: string
+    required: false
+  rateCodeSH:
+    type: string
+    required: false
+  characteristics:
+    type: array
+    items: !include characteristic.raml
+examples: !include ../examples/product-example.raml

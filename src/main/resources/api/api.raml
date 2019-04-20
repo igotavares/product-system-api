@@ -1,0 +1,57 @@
+#%RAML 1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/75faf9c0-17d2-4fab-a981-95e83d9fa730/ # 
+title: System Customer API
+version: v1
+
+securitySchemes:
+     basic:
+        type: Basic Authentication
+
+resourceTypes:
+  collection-resource-type: !include resourceTypes/collection-resource-type.raml
+  item-resource-type: !include resourceTypes/collection-item-resource-type.raml
+
+traits:
+  orderable: !include traits/orderable.raml
+  pageable: !include traits/pageable.raml
+  searchable: !include traits/searchable.raml
+
+types:
+  user: !include dataTypes/user.raml
+  products: !include dataTypes/products.raml
+  product: !include dataTypes/product.raml
+
+/login:
+  post:
+    securedBy: [basic]
+    body: 
+      application/json: 
+        type: user
+        examples: !include examples/user-example.raml 
+    responses:
+      200:
+        body:
+          application/json: 
+            type: user
+            examples: !include examples/user-example.raml
+  options:
+    
+/products:
+  securedBy: [basic] 
+  type: 
+    collection-resource-type:
+      typeCollection: products
+      typeItem: product
+      examplePostRequest: !include examples/product-no-id-example.raml
+  get:
+    is: [searchable]
+  post:
+  /{id}:
+    type: 
+      item-resource-type:
+        typeItem: product
+        exampleItem: !include examples/product-example.raml
+        examplePutRequest: !include examples/product-no-id-example.raml
+    get:
+    put:
+    delete:
